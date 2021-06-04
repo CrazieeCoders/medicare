@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "342598537807",
+    "project_id": "medicare-ca6be",
+    "storage_bucket": "medicare-ca6be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342598537807:android:893f745b4689f1e9c1103a",
+        "android_client_info": {
+          "package_name": "com.atricali.changeout.medicare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342598537807-2dtuedcjt0bd2uic4ieen8ivccsoffqp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZNwS98MnArOeHNZW69BQ56wellKuz8OI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342598537807-2dtuedcjt0bd2uic4ieen8ivccsoffqp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,5 @@
-import 'dart:typed_data';
+import 'dart:core';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,7 @@ import 'package:medicare/widgets/widgets.dart';
 import 'package:signature/signature.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medicare/extensions/extensions.dart';
-import 'package:medicare/bloc/register_event.dart';
+
 
 
 double h = SizeConfig.heightMultiplier;
@@ -27,7 +28,8 @@ bool checkValue5 = false;
 bool checkValue6 = false;
 
 int radioValue1 = 0;
-
+int _radioValue2 = 0;
+int _radioValue3 = 0;
 
 String chosenValue = 'Alabama';
 
@@ -112,10 +114,16 @@ class _AppFormState extends State<AppForm> {
                         }else {
 
 
+                          String designation = getDesignation(radioValue1);
+                          String desc = getDesignation(_radioValue2);
+                          String gender = getDesignation(_radioValue3);
+                          List<String> dose = getDoseList();
+                          List<String> response = getMethodOfresponse();
+
                           UserData userData= UserData(
                             requestFirstName: requesterFirstController.text,
                             requestLastName: requesterLastController.text,
-                            designation: '0',
+                            designation:designation,
                             institution: instituteController.text,
                             department: departController.text,
                             addr1: instituteAddrController1.text,
@@ -126,19 +134,19 @@ class _AppFormState extends State<AppForm> {
                             phonenumber: phoneController.text,
                             faxNumber: faxController.text,
                             email: emailController.text,
-                            products: ['0','1'],
+                            products:dose,
                             description: descController.text,
-                            checkOne: radioValue1.toString(),
+                            checkOne: desc,
                             patientName: patientController.text,
                             dob: dobController.text,
-                            gender: 'male',
+                            gender: gender,
                             dor: dorController.text,
-                            methodOfResponse: ['u','o'],
-                            image:'image',
+                            methodOfResponse:response,
+                            image:'image Storage reference',
                             representativeName: represNameController.text,
                             representativeType: represTypeController.text,
-                            countryCode: '999',
-                            represNumber:'888',
+                            countryCode: countryCodeController.text,
+                            represNumber:represTypeController.text,
                             telePhone: telePhoneController.text,
 
                           );
@@ -366,36 +374,8 @@ class _AppForm1State extends State<AppForm1> {
             style: Style.desc2TextStyle,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
-          child: Card(
-            elevation: 1.0,
-            child: Container(
-              height: 5.67 * h,
-              width: 87.59 * w,
-              child: TextFormField(
-                controller: instituteController,
-                keyboardType: TextInputType.text,
-                style: Style.input2TextStyle,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(17),
-                ],
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(
-                      2.43 * w, 1.21 * h, 2.43 * w, 1.21 * h),
-                  border: InputBorder.none,
-                ),
-                validator: (value) {
-                  if (value!.isEmpty || value == '') {
-                    return "Please enter Institution/Office Name";
-                  } else if (value.length < 3) {
-                    return "Please enter a valid Institution/Office name";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ),
+        TextBoxWidget(requesterFirstController: instituteController,
+          validationMsg: 'Institution/Office Name',
         ),
         Padding(
           padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
@@ -404,36 +384,8 @@ class _AppForm1State extends State<AppForm1> {
             style: Style.desc2TextStyle,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
-          child: Card(
-            elevation: 1.0,
-            child: Container(
-              height: 5.67 * h,
-              width: 87.59 * w,
-              child: TextFormField(
-                controller: departController,
-                keyboardType: TextInputType.text,
-                style: Style.input2TextStyle,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(6),
-                ],
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(
-                      2.43 * w, 1.21 * h, 2.43 * w, 1.21 * h),
-                  border: InputBorder.none,
-                ),
-                validator: (value) {
-                  if (value!.isEmpty || value == '') {
-                    return "Please enter Department Name";
-                  } else if (value.length < 3) {
-                    return "Please enter a valid Department Name";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ),
+        TextBoxWidget(requesterFirstController: departController,
+          validationMsg: 'Department Name',
         ),
         Padding(
           padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
@@ -442,36 +394,8 @@ class _AppForm1State extends State<AppForm1> {
             style: Style.desc2TextStyle,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
-          child: Card(
-            elevation: 1.0,
-            child: Container(
-              height: 5.67 * h,
-              width: 87.59 * w,
-              child: TextFormField(
-                controller: instituteAddrController1,
-                keyboardType: TextInputType.text,
-                style: Style.input2TextStyle,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(30),
-                ],
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(
-                      2.43 * w, 1.21 * h, 2.43 * w, 1.21 * h),
-                  border: InputBorder.none,
-                ),
-                validator: (value) {
-                  if (value!.isEmpty || value == '') {
-                    return "Please enter Institution address";
-                  } else if (value.length < 3) {
-                    return "Please enter a valid Institution address";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ),
+        TextBoxWidget(requesterFirstController: instituteAddrController1,
+          validationMsg: 'Institution address',
         ),
         Padding(
           padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
@@ -480,36 +404,8 @@ class _AppForm1State extends State<AppForm1> {
             style: Style.desc2TextStyle,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
-          child: Card(
-            elevation: 1.0,
-            child: Container(
-              height: 5.67 * h,
-              width: 87.59 * w,
-              child: TextFormField(
-                controller: instituteAddrController2,
-                keyboardType: TextInputType.text,
-                style: Style.input2TextStyle,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(30),
-                ],
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(
-                      2.43 * w, 1.21 * h, 2.43 * w, 1.21 * h),
-                  border: InputBorder.none,
-                ),
-                validator: (value) {
-                  if (value!.isEmpty || value == '') {
-                    return "Please enter Institute address";
-                  } else if (value.length < 3) {
-                    return "Please enter a valid Institute address";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ),
+        TextBoxWidget(requesterFirstController: instituteAddrController2,
+          validationMsg: 'Institution address',
         ),
         Padding(
           padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
@@ -567,36 +463,8 @@ class _AppForm1State extends State<AppForm1> {
             style: Style.desc2TextStyle,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
-          child: Card(
-            elevation: 1.0,
-            child: Container(
-              height: 5.67 * h,
-              width: 87.59 * w,
-              child: TextFormField(
-                controller: cityController,
-                keyboardType: TextInputType.text,
-                style: Style.input2TextStyle,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(17),
-                ],
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(
-                      2.43 * w, 1.21 * h, 2.43 * w, 1.21 * h),
-                  border: InputBorder.none,
-                ),
-                validator: (value) {
-                  if (value!.isEmpty || value == '') {
-                    return "Please enter city name";
-                  } else if (value.length < 3) {
-                    return "Please enter a valid city name";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ),
+        TextBoxWidget(requesterFirstController: cityController,
+          validationMsg: 'city name',
         ),
         Padding(
           padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
@@ -647,36 +515,8 @@ class _AppForm1State extends State<AppForm1> {
           padding: EdgeInsets.only(left: 4.86 * w, top: 1.21 * h),
           child: Text('Fax Number', style: Style.desc2TextStyle),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 4.86 * w, top: 1.21 * h),
-          child: Card(
-            elevation: 1.0,
-            child: Container(
-              height: 5.67 * h,
-              width: 87.59 * w,
-              child: TextFormField(
-                controller: faxController,
-                keyboardType: TextInputType.phone,
-                style: Style.input2TextStyle,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(10),
-                ],
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(
-                      2.43 * w, 1.21 * h, 2.43 * w, 1.21 * h),
-                  border: InputBorder.none,
-                ),
-                validator: (ph) {
-                  if (ph == '') {
-                    return "Please enter the Fax number";
-                  } else if (ph!.length != 10) {
-                    return "Please enter a valid Fax number";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ),
+        TextBoxPhoneWidget(phoneController: faxController,
+          validMsg: 'Fax Number',
         ),
         Padding(
           padding: EdgeInsets.only(left: 4.86 * w, bottom: 1.21 * h),
@@ -724,8 +564,7 @@ class AppForm2 extends StatefulWidget {
 
 class _AppForm2State extends State<AppForm2> {
 
-  int _radioValue2 = 0;
-  int _radioValue3 = 1;
+
 
   @override
   Widget build(BuildContext context) {
@@ -855,7 +694,7 @@ class _AppForm2State extends State<AppForm2> {
         Row(
           children: [
             Radio(
-              value: 1,
+              value: 0,
               groupValue: _radioValue3,
               onChanged: (int? val) {
                 setState(() {
@@ -874,7 +713,7 @@ class _AppForm2State extends State<AppForm2> {
         Row(
           children: [
             Radio(
-              value: 2,
+              value: 1,
               groupValue: _radioValue3,
               onChanged: (int? val) {
                 setState(() {
@@ -1127,6 +966,100 @@ class _AppForm3State extends State<AppForm3> {
 
 
 
+getDesignation(int radioValue1){
+
+  String designation='';
+
+  switch (radioValue1){
+    case 0:
+      designation = 'MD';
+      break;
+    case 1:
+      designation = 'MO';
+      break;
+    case 2:
+      designation = 'NP';
+      break;
+    case 3:
+      designation = 'PA';
+      break;
+  }
+
+  return designation;
+}
+
+getDesc(int radioValue2){
+
+  String desc='';
+
+  switch (radioValue2){
+    case 0:
+      desc = 'This inquiry does not represent an adverse event experienced by a patient';
+      break;
+    case 1:
+      desc = 'This inquiry represent an adverse event experienced by a patient';
+      break;
+  }
+
+  return desc;
 
 
+}
 
+getGender(int radioValue3){
+
+  String gender='';
+
+  switch (radioValue3){
+    case 0:
+      gender = 'Male';
+      break;
+    case 1:
+      gender = 'Female';
+      break;
+    case 2:
+      gender = 'Other';
+      break;
+  }
+
+  return gender;
+
+}
+
+
+getDoseList(){
+
+  List<String> dose = [];
+
+  if(checkValue1 && checkValue2){
+    dose.add('10 MG - Roszet');
+    dose.add('20 MG - Roszet');
+  }else if(checkValue1){
+    dose.add('10 MG - Roszet');
+  }else if(checkValue2){
+    dose.add('10 MG - Roszet');
+  }
+
+  return dose;
+}
+
+
+getMethodOfresponse(){
+
+  List<String> response = [];
+  List<bool> methodofResponse= [checkValue3, checkValue4, checkValue5,checkValue6];
+
+  for(int i = 0;i<methodofResponse.length;i++){
+
+    if(methodofResponse[0]){
+      response.add('Fax');
+    }else if(methodofResponse[1]){
+      response.add('Mail');
+    }else if(methodofResponse[2]){
+      response.add('Email');
+    }else if(methodofResponse[3]){
+      response.add('Phone');
+    }
+  }
+  return response;
+}
